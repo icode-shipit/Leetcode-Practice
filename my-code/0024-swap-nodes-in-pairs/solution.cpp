@@ -11,33 +11,30 @@ public:
         }
         else 
         {
-            int i=0;
-            ListNode* temphead;
-            ListNode* current=head;
-            ListNode* prev=nullptr;
-            ListNode* next=current->next;
-            while(current!=nullptr && next!=nullptr)
+            ListNode* prev=NULL;
+            ListNode* temp=head;
+            ListNode* temp1;
+            while(temp->next!=NULL)
             {
-                current->next=next->next; //linking
-                next->next=current;
-                if(prev!=nullptr)
-                {
-                    prev->next=next;
-                }
-                    if(i==0)
-                    {
-                        temphead=next;
-                    }
-                    // updating positions
-                    prev=current;
-                    current=current->next;
-                    if(current!=nullptr)
-                    {
-                        next=current->next;
-                    }
-                        i++;
+               temp1=temp->next;
+               temp->next=temp1->next;
+               temp1->next=temp;
+               if(prev!=NULL)
+               {
+               prev->next=temp1;
+               }
+               if(prev==NULL)
+               {
+               head=temp1; 
+               }
+               prev=temp;
+               temp=temp->next;   
+               if(temp==NULL)
+               {
+                break;
+               }
             }
-            return temphead;
         }
+        return head;
     }
 };
