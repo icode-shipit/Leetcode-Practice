@@ -17,21 +17,17 @@ public:
         {
             return false;
         }
-        ListNode* p1=head;
-        ListNode* p2=head->next->next;
-        while(p1!=p2)
+        ListNode* temp1=head;
+        ListNode* temp2=head->next->next;
+        while(temp2!=NULL && temp2->next!=NULL)
         {
-            if(p1==p2)
-            {
-                return true;
-            }
-            if(p1==NULL || p2==NULL || p2->next==NULL)
-            {
-                return false;
-            }
-            p1=p1->next;
-            p2=p2->next->next;
+          if(temp1==temp2)
+          {
+            return true;
+          }  
+          temp1=temp1->next;
+          temp2=temp2->next->next;
         }
-        return true;
+        return false;
     }
 };
