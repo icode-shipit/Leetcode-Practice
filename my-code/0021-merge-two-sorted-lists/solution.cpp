@@ -11,38 +11,55 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode* dummy= new ListNode();
-        ListNode* tail=dummy;
-        ListNode* temp1=list1;
-        ListNode* temp2=list2;
-        while(temp1!=NULL || temp2!=NULL)
+        if(list1==NULL )
         {
-            if(temp1==NULL)
-            {
-               tail->next= temp2;
-               temp2=temp2->next;
-               tail=tail->next;
-            }
-            else if(temp2==NULL)
-            {
-                tail->next= temp1;
-                temp1=temp1->next;
-                tail=tail->next;
-            }
-            else if(temp1->val < temp2->val)
-            {
-                tail->next=temp1;
-                tail=tail->next;
-                temp1=temp1->next;
-            }
-            else
-            {
-                tail->next=temp2;
-                tail=tail->next;
-                temp2=temp2->next;
-            }
+            return list2;
         }
-        return dummy->next;
+        else if(list2==NULL)
+        {
+            return list1;
+        }
+        ListNode* p1=list1;
+        ListNode* p2=list2;
+        vector<ListNode*> v;
+        while(p1!=NULL || p2!=NULL)
+        {
+          if(p1!=NULL && p2!=NULL)
+          {
+            if(p1->val <=p2->val)
+            {
+                v.push_back(p1);
+                p1=p1->next;
+            }
+            else if(p1->val >p2->val)
+            {
+                v.push_back(p2);
+                p2=p2->next;
+            }
+          }
+          else if(p1!=NULL && p2==NULL)
+          {
+            v.push_back(p1);
+                p1=p1->next;
+          }
+          else 
+          {
+            v.push_back(p2);
+            p2=p2->next;
+          }
+        }
 
+        int i=0;
+        while(i<v.size())
+        {
+            if(i==v.size()-1)
+            {
+                v[i]->next=NULL;
+                break;
+            }
+            v[i]->next=v[i+1];
+            i++;
+        }
+        return v[0];
     }
 };
