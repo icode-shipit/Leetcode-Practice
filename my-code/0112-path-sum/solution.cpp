@@ -11,31 +11,31 @@
  */
 class Solution {
 public:
-    void preorder(TreeNode* root,int sum,int target,bool &ans)
+    bool ans=false;
+    int target;
+    void dfs(TreeNode* root,int sum)
     {
         if(root==NULL)
         {
-            return ;
+            return;
         }
-        if(root->left==NULL && root->right==NULL)
+        if(root->left!=NULL) dfs(root->left,sum+root->left->val);
+        else if(root->left==NULL) dfs(root->left,sum);
+        if(root->right!=NULL) dfs(root->right,sum+root->right->val);
+        else if(root->right==NULL) dfs(root->right,sum);
+        if(root->left==NULL && root->right==NULL && target==sum)
         {
-            if(sum+root->val==target)
-            {
-                ans= true;
-            }
+            ans=true;
         }
-        preorder(root->left,sum+root->val,target,ans);
-        preorder(root->right,sum+root->val,target,ans);
-        return;
+        return ;
     }
- 
     bool hasPathSum(TreeNode* root, int targetSum) {
         if(root==NULL)
         {
             return false;
         }
-        bool ans=false;
-    preorder(root,0,targetSum,ans);
-    return ans;
+        target=targetSum;
+        dfs(root,root->val);
+        return ans;
     }
 };
