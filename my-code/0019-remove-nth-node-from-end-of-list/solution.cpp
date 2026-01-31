@@ -10,70 +10,25 @@
  */
 class Solution {
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) 
-    {
-        // first counting the total no of nodes in the list
-        ListNode* temp=head;
-        int total=0;
-        while(temp!=nullptr)
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        if(head->next==NULL && n==1)
         {
-            temp=temp->next;
-            total++;
+            return NULL;
         }
-        if(total==0)
+        ListNode* dummy= new ListNode();
+        dummy->next=head;
+        ListNode* p1=dummy;
+        ListNode* p2=head;
+        for(int i=1;i<=n;i++)
         {
-            return head;
+           p2=p2->next;
         }
-        else if(total==1)
+        while(p2!=NULL)
         {
-            delete head;
-            return nullptr;
+           p1=p1->next;
+           p2=p2->next;
         }
-        else if(total==2)
-        {
-            if(n==1)
-            {
-                ListNode* temp=head->next;
-                head->next=nullptr;
-                delete temp;
-                return head;
-            }
-            else
-            {
-                ListNode* temp=head->next;
-                head->next=nullptr;
-                delete head;
-                head=temp;
-                return head;
-            }
-        }
-        else 
-        {
-            if(total==n)
-            {
-                ListNode* temp = head->next;
-                head->next=nullptr;
-                delete head;
-                head=temp;
-                return head;
-            }
-        else
-        {
-        int i=total-n-1;
-        int j=0;
-        ListNode* tempp=head;
-        while(j<i)
-        {
-            tempp=tempp->next;
-            j++;
-        }
-        temp=tempp->next;
-        tempp->next=temp->next;
-        temp->next=nullptr;
-        delete temp;
-        return head;
-        }
-        return {};
-        }
+        p1->next=p1->next->next;
+        return dummy->next;
     }
 };
