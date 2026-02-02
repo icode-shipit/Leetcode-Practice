@@ -8,9 +8,8 @@ public:
             ans=ans+curr_xor;
             return;
         }
+        backtracking(nums,p+1,curr_xor ^ nums[p]); // include case
         backtracking(nums,p+1,curr_xor); // not include case
-        curr_xor= curr_xor ^ nums[p];
-        backtracking(nums,p+1,curr_xor); // include case
         return;
     }
     int subsetXORSum(vector<int>& nums) {
