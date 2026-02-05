@@ -15,30 +15,59 @@ public:
         {
             return head;
         }
-        priority_queue<pair<int,ListNode*>,vector<pair<int,ListNode*>>,greater<pair<int,ListNode*>>> pq;
-        ListNode* temp=head;
-        while(temp!=NULL)
+        ListNode* slow=head;
+        ListNode* fast=head->next;
+        while(fast!=NULL && fast->next!=NULL)
         {
-            pq.push({temp->val,temp});
-            temp=temp->next;
+            slow=slow->next;
+            fast=fast->next->next;
         }
-        ListNode* prev=NULL;
-        while(!pq.empty())
+        // Now we have to point slow to null (splitting)
+        ListNode* head2=slow->next;
+        slow->next=NULL;
+        ListNode* leftsplit=sortList(head);
+        ListNode* rightsplit=sortList(head2);
+        ListNode* newhead; // head of merged list
+        ListNode* temp; //used only for linking
+        if(leftsplit->val<rightsplit->val)
         {
-            if(prev==NULL)
+            temp=leftsplit;
+            newhead=leftsplit;
+            leftsplit=leftsplit->next;
+        }
+        else
+        {
+            temp=rightsplit;
+            newhead=rightsplit;
+            rightsplit=rightsplit->next;
+        }
+        while(leftsplit!=NULL || rightsplit!=NULL)
+        {
+            if(leftsplit!=NULL && rightsplit!=NULL)
             {
-                prev=pq.top().second;
-                pq.pop();
-                head=prev;
+               if(leftsplit->val<=rightsplit->val)
+            {
+                temp->next=leftsplit;
+                leftsplit=leftsplit->next;
             }
             else
             {
-                prev->next=pq.top().second;
-                prev=prev->next;
-                pq.pop();
+                temp->next=rightsplit;
+                rightsplit=rightsplit->next;
             }
+            }
+            else if(leftsplit!=NULL)
+            {
+                temp->next=leftsplit;  
+                leftsplit=leftsplit->next;
+            }
+            else
+            {
+                temp->next=rightsplit;
+                rightsplit=rightsplit->next;
+            }
+            temp=temp->next;
         }
-        prev->next=NULL;
-        return head;
+        return newhead;
     }
 };
