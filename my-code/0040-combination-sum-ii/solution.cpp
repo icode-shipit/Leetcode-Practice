@@ -1,15 +1,15 @@
 class Solution {
 public:
-    vector<vector<int>> ans;
     vector<int> temp;
-    void backtracking(vector<int>& candidates,int target,int curr_sum,int p)
+    vector<vector<int>> ans;
+    void backtracking(vector<int>& candidates, int target,int curr_sum,int p)
     {
         if(curr_sum==target)
         {
             ans.push_back(temp);
             return;
         }
-        else if(curr_sum>target || p==candidates.size())
+        else if(curr_sum>target || p>=candidates.size())
         {
             return;
         }
