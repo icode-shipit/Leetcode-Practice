@@ -1,25 +1,25 @@
 class Solution {
 public:
-    vector<int> temp;
     vector<vector<int>> ans;
-    void backtracking(int n, int k,int i)
+    vector<int> temp;
+    void backtracking(int n,int k,int i)
     {
         if(temp.size()==k)
         {
-            ans.push_back(temp);
-            return;
+          ans.push_back(temp);
+          return; 
         }
-        if(temp.size()>k)
+        else if(temp.size()>k || i>n)
         {
             return;
         }
-        for(int j=i;j<=n;j++)
+        else
         {
-            temp.push_back(j);
-            backtracking(n,k,j+1);
+            temp.push_back(i);
+            backtracking(n,k,i+1);
             temp.pop_back();
+            backtracking(n,k,i+1);
         }
-        return;
     }
     vector<vector<int>> combine(int n, int k) {
         backtracking(n,k,1);
