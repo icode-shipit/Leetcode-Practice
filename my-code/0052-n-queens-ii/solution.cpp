@@ -1,15 +1,14 @@
 class Solution {
 public:
-    vector<vector<string>> ans;
+    int ans;
     unordered_set<int> col;
     unordered_set<int> posdiag;
     unordered_set<int> negdiag;
-    void backtracking(int r,int n,vector<string> &board)
+    void backtracking(int r,int n)
     {
         if(r==n)
         {
-            vector<string> copy= board;
-            ans.push_back(board);
+            ans++;
             return;
         }
 
@@ -19,14 +18,12 @@ public:
             {
                 continue;
             }
-            board[r][c]='Q';
             col.insert(c);
             posdiag.insert(r+c);
             negdiag.insert(r-c);
 
-            backtracking(r+1,n,board);
+            backtracking(r+1,n);
 
-            board[r][c]='.';
             col.erase(c);
             posdiag.erase(r+c);
             negdiag.erase(r-c);
@@ -34,17 +31,7 @@ public:
         return;
     }
     int totalNQueens(int n) {
-        vector<string> board;
-        for(int i=0;i<n;i++)
-        {
-            string temp;
-            for(int j=0;j<n;j++)
-            {
-                temp.push_back('.');
-            }
-            board.push_back(temp);
-        }
-        backtracking(0,n,board);
-        return ans.size();
+        backtracking(0,n);
+        return ans;
     }
 };
