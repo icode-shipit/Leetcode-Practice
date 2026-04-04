@@ -1,27 +1,24 @@
 class Solution {
 public:
-    bool backtracking(int k,int p,vector<int>& nums,int set_sum,int val)
+    bool backtracking(int val,int k,vector<int>& v,int p,vector<int>& nums)
     {
-        if(k==0)
+        if(p==nums.size())
         {
             return true;
         }
-        if(set_sum==val)
+        int fail_case=-1;
+        for(int i=0;i<v.size();i++)
         {
-            return backtracking(k-1,0,nums,0,val);
-        }
-        for(int i=p;i<nums.size();i++)
-        {
-            if(nums[i]==-1) continue;
-            if(set_sum+nums[i]<=val)
+            if(fail_case==v[i]) continue;
+            if(v[i]+nums[p]<=val)
             {
-                int temp=nums[i];
-                nums[i]=-1;
-                if(backtracking(k,i+1,nums,set_sum+temp,val))
+                v[i]+=nums[p];
+                if(backtracking(val,k,v,p+1,nums))
                 {
                     return true;
                 }
-                nums[i]=temp;
+                v[i]-=nums[p];
+                fail_case=v[i];
             }
         }
         return false;
@@ -30,9 +27,10 @@ public:
         int sum=accumulate(nums.begin(),nums.end(),0);
         if(sum%k!=0)
         {
-            return false;
+          return false; 
         }
         sort(nums.rbegin(),nums.rend());
-        return backtracking(k,0,nums,0,sum/k);
+        vector<int> v(k);
+        return backtracking(sum/k,k,v,0,nums);
     }
 };
